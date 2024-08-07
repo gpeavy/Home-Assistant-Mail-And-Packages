@@ -2,6 +2,7 @@
 
 import asyncio
 import logging
+import pprint
 from datetime import timedelta
 
 from homeassistant.config_entries import ConfigEntry
@@ -47,6 +48,7 @@ async def async_setup_entry(hass: HomeAssistant, config_entry: ConfigEntry) -> b
         VERSION,
         ISSUE_URL,
     )
+    _LOGGER.debug("DEBUG: %s", pprint.pformat(config_entry))
     hass.data.setdefault(DOMAIN, {})
     updated_config = config_entry.data.copy()
 
@@ -187,7 +189,7 @@ class MailDataUpdateCoordinator(DataUpdateCoordinator):
         self.hass = hass
         self._data = {}
 
-        _LOGGER.debug("Data will be update every %s", self.interval)
+        _LOGGER.debug("DEBUG: Data will be update every %s", self.interval)
 
         super().__init__(hass, _LOGGER, name=self.name, update_interval=self.interval)
 

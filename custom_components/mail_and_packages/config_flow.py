@@ -2,6 +2,7 @@
 
 import logging
 from os import path
+import pprint
 from typing import Any
 
 import homeassistant.helpers.config_validation as cv
@@ -331,7 +332,7 @@ class MailAndPackagesFlowHandler(config_entries.ConfigFlow, domain=DOMAIN):
         if user_input is not None:
             self._errors, user_input = await _validate_user_input(user_input)
             self._data.update(user_input)
-            _LOGGER.debug("RESOURCES: %s", self._data[CONF_RESOURCES])
+            _LOGGER.debug("DEBUG RESOURCES: %s", self._data[CONF_RESOURCES])
             if len(self._errors) == 0:
                 if any(
                     sensor in self._data[CONF_RESOURCES] for sensor in AMAZON_SENSORS

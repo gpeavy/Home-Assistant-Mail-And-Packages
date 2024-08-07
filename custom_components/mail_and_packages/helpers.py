@@ -9,6 +9,7 @@ import hashlib
 import imaplib
 import logging
 import os
+import pprint
 import quopri
 import re
 import ssl
@@ -100,6 +101,7 @@ def get_resources() -> dict:
         sensor_id: sensor.name for sensor_id, sensor in SENSOR_TYPES.items()
     }
 
+    _LOGGER.debug("DEBUG: know_available_resources: %s", pprint.pformat(known_available_resources))
     return known_available_resources
 
 
@@ -221,6 +223,7 @@ def process_emails(hass: HomeAssistant, config: ConfigEntry) -> dict:
     if config.get(CONF_ALLOW_EXTERNAL):
         copy_images(hass, config)
 
+    _LOGGER.debug("DEBUG: process_emails return: %s", pprint.pformat(data))
     return data
 
 
@@ -358,7 +361,9 @@ def fetch(
 
     Returns integer of sensor passed to it
     """
+    _LOGGER.debug("DEBUG: fetch sensor: %s", pprint.pformat(sensor))
     if sensor in data:
+        _LOGGER.debug("DEBUG: fetched sensor in data: %s", pprint.pformat(data[sensor]))
         return data[sensor]
 
     img_out_path = f"{hass.config.path()}/{default_image_path(hass, config)}"
@@ -443,7 +448,7 @@ def fetch(
         )[ATTR_COUNT]
 
     data.update(count)
-    _LOGGER.debug("Sensor: %s Count: %s", sensor, str(count[sensor]))
+    _LOGGER.debug("DEBUG sensor: %s Count: %s", sensor, str(count[sensor]))
     return count[sensor]
 
 

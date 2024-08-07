@@ -2,6 +2,7 @@
 
 import logging
 import os
+import pprint
 
 from homeassistant.components.binary_sensor import (
     BinarySensorEntity,
@@ -36,6 +37,7 @@ async def async_setup_entry(hass, entry, async_add_devices):
     # pylint: disable=unused-variable
     for variable, value in BINARY_SENSORS.items():
         binary_sensors.append(PackagesBinarySensor(value, coordinator, entry))
+    _LOGGER.debug("DEBUG: add_devices: %s", pprint.pformat(binary_sensors))
     async_add_devices(binary_sensors, False)
 
 
@@ -60,6 +62,8 @@ class PackagesBinarySensor(CoordinatorEntity, BinarySensorEntity):
 
         self._attr_name = f"{self._name}"
         self._attr_unique_id = f"{self._host}_{self._name}_{self._unique_id}"
+
+        _LOGGER.debug("DEBUG: PackagesBinarySensor created: %s", pprint.pformat(self))
 
     @property
     def device_info(self) -> dict:
@@ -128,4 +132,5 @@ class PackagesBinarySensor(CoordinatorEntity, BinarySensorEntity):
                 self.coordinator.data[self._type],
             )
             return bool(self.coordinator.data[self._type])
+        _LOGGER.debug("DEBUG:  no match: %s", pprint.pformat(self))
         return False
