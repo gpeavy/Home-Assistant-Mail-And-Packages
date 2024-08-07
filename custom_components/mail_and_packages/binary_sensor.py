@@ -132,5 +132,5 @@ class PackagesBinarySensor(CoordinatorEntity, BinarySensorEntity):
                 self.coordinator.data[self._type],
             )
             return bool(self.coordinator.data[self._type])
-        _LOGGER.debug("DEBUG:  no match: %s", pprint.pformat(self))
+        _LOGGER.debug("DEBUG: no match: %s", self._type)
         return False
