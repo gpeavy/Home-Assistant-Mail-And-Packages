@@ -195,21 +195,24 @@ class ImagePathSensors(CoordinatorEntity, SensorEntity):
             path = self._config.data[CONF_PATH]
 
         if self.type == "usps_mail_image_system_path":
-            _LOGGER.debug("Updating system image path to: %s", path)
             the_path = f"{self.hass.config.path()}/{path}{image}"
+            _LOGGER.debug("Updating system image path to: %s", the_path)
         elif self.type == "usps_mail_image_url":
             if (
                 self.hass.config.external_url is None
                 and self.hass.config.internal_url is None
             ):
                 the_path = None
+                _LOGGER.debug("Unable to set image url: No external or internal url defined")
             elif self.hass.config.external_url is None:
                 _LOGGER.debug("External URL not set in configuration.")
                 url = self.hass.config.internal_url
                 the_path = f"{url.rstrip('/')}/local/mail_and_packages/{image}"
+                _LOGGER.debug("Updating image url to: %s", the_path)
             else:
                 url = self.hass.config.external_url
                 the_path = f"{url.rstrip('/')}/local/mail_and_packages/{image}"
+                _LOGGER.debug("Updating image url to: %s", the_path)
         return the_path
 
     @property
