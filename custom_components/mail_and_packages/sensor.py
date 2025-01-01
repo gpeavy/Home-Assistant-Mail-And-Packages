@@ -160,8 +160,9 @@ class ImagePathSensors(CoordinatorEntity, SensorEntity):
         self.type = sensor_description.key
         self._host = config.data[CONF_HOST]
         self._unique_id = self._config.entry_id
-        _LOGGER.debug("Initialize sensor: %s with external url: %s internal url: %s", self._name, self.hass.config.external_url, self.hass.config.internal_url)
-        _LOGGER.debug("Initialize sensor: %s with hass config: %s", self._name, pprint.pformat(self.hass.config.location_name))
+        hass_config = self.hass.config
+        _LOGGER.debug("Initialize sensor: %s with external url: %s internal url: %s", self._name, hass_config.external_url, hass_config.internal_url)
+        _LOGGER.debug("Initialize sensor: %s with hass config: %s", self._name, pprint.pformat(hass_config))
 
     @property
     def device_info(self) -> dict:
