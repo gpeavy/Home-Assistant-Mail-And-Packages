@@ -6,7 +6,7 @@ Configuration code contribution from @firstof9 https://github.com/firstof9/
 
 import datetime
 import logging
-from IPython.lib.pretty import pretty
+from pretty import pretty
 from datetime import timezone
 from typing import Any, Optional
 
