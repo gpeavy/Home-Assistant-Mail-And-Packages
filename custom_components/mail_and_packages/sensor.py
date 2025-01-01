@@ -15,6 +15,7 @@ from homeassistant.config_entries import ConfigEntry
 from homeassistant.const import CONF_HOST, CONF_RESOURCES
 from homeassistant.core import HomeAssistant
 from homeassistant.helpers.update_coordinator import CoordinatorEntity
+from homeassistant.helpers.network import NoURLAvailableError, get_url
 
 from .const import (
     AMAZON_DELIVERED,
@@ -163,6 +164,11 @@ class ImagePathSensors(CoordinatorEntity, SensorEntity):
         hass_config = self.hass.config
         _LOGGER.debug("Initialize sensor: %s with external url: %s internal url: %s", self._name, hass_config.external_url, hass_config.internal_url)
         _LOGGER.debug("Initialize sensor: %s with hass config: %s", self._name, pprint.pformat(hass_config.as_dict()))
+        try:
+            hass_url: str = get_url(self.hass, prefer_external=True)
+        except NoURLAvailableError:
+            hass_url = ""
+        _LOGGER.debug("get_url: %s", hass_url)
 
     @property
     def device_info(self) -> dict:
