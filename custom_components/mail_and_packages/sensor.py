@@ -199,7 +199,7 @@ class ImagePathSensors(CoordinatorEntity, SensorEntity):
             the_path = f"{self.hass.config.path()}/{path}{image}"
             _LOGGER.debug("Updating system image path to: %s", the_path)
         elif self.type == "usps_mail_image_url":
-            url = get_url(self.hass)
+            url = get_url(self.hass, prefer_external=True)
             the_path = f"{url.rstrip('/')}/local/mail_and_packages/{image}"
             _LOGGER.debug("Updating image url to: %s", the_path)
         return the_path
